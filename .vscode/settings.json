@@ -1,0 +1,13 @@
+{
+    "fileHeaderCommentHelper.languageConfigs": {
+        "language_cpp": {
+            "template": ["/*",
+                "Project: $(projectName)",
+                "File: $(currentFile)",
+                "*/"]
+        }
+    },
+    "fileHeaderCommentHelper.projectSettings": {
+    
+    }
+}
