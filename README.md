@@ -1,5 +1,8 @@
 # TotpCommonCrypto
-TOTP Sample Implementation Reference with CommonCrypto(iOS/macOS) and Cpp
+TOTP Sample Implementation Reference with CommonCrypto(iOS/macOS) and Cpp.
+This implementation includes reference implementation of base32(RFC4648) 
+and TOTP(RFC6258) using CommonCrypto Library on System Framework in Mac OS X
+and iOS.
 
 ## How to build and use
 This sample implementation is for using on mac OS X development environment.
