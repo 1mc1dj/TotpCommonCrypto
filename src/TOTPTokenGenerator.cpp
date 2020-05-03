@@ -20,10 +20,6 @@ Released under the MIT license
 #include "TOTPTokenGenerator.h"
 #include "ByteSwap.h"
 
-TOTPTokenGenerator::TOTPTokenGenerator(uint8_t *sec, size_t keylen)
-:key_str_((char *)sec), keylen_(keylen) 
-{}
-
 uint32_t TOTPTokenGenerator::getToken(){
     uint64_t t = time(NULL)  / STEP_IN_SECONDS; // get time
     t = bswap_64(t); // time_t to big endian

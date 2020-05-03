@@ -19,7 +19,8 @@ Released under the MIT license
 
 class TOTPTokenGenerator {
 public:
-    TOTPTokenGenerator(uint8_t *key, size_t len);
+    TOTPTokenGenerator(uint8_t *key, size_t len):
+        key_str_((char *)key), keylen_(len){}; 
     virtual ~TOTPTokenGenerator(){}
     bool init();
     uint32_t getToken();

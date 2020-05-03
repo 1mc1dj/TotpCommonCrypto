@@ -1,3 +1,12 @@
+/*
+Project: TotpCommonCrypto
+File: main.cpp
+
+This main indicates usage of Base32Decoder and TOTPTokenGenerator.
+
+Copyright 2020 Tomoo Mizukami <we_love_blog@yahoo.com>
+Released under the MIT license
+*/
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
