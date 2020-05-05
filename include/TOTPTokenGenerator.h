@@ -16,16 +16,22 @@ Released under the MIT license
 #define __TOTP_H__
 
 #include <string>
+#include <stdio.h>
+#include <string.h>
 
 class TOTPTokenGenerator {
 public:
-    TOTPTokenGenerator(uint8_t *key, size_t len):
-        key_str_((char *)key), keylen_(len){}; 
-    virtual ~TOTPTokenGenerator(){}
+    TOTPTokenGenerator(uint8_t *key, size_t len): keylen_(len) {
+        key_ = new uint8_t[len];
+        memcpy(key_, key, len);
+    }; 
+    virtual ~TOTPTokenGenerator(){
+        delete[] key_;
+    }
     bool init();
     uint32_t getToken();
 private:
-    std::string key_str_;
+    uint8_t *key_;
     int keylen_ = 0;
     const uint64_t   STEP_IN_SECONDS = 30L; // step in seconds
 };

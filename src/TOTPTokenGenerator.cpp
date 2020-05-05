@@ -26,7 +26,7 @@ uint32_t TOTPTokenGenerator::getToken(){
     uint8_t    cchmac_result[64] = {};
     
     // execute SHA1-HMAC with CommonCrypto Library
-    CCHmac(kCCHmacAlgSHA1, (void *)key_str_.c_str(), keylen_, (void *)&t, sizeof(t), (void *)cchmac_result);
+    CCHmac(kCCHmacAlgSHA1, (void *)key_, keylen_, (void *)&t, sizeof(t), (void *)cchmac_result);
 
     // truncates hash
     uint64_t offset   = cchmac_result[19] & 0x0f;
