@@ -33,3 +33,4 @@
 
 # for CMakeLists.txt
 build/*
+*~

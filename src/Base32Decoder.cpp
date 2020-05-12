@@ -29,9 +29,9 @@ int Base32Decoder::length() const{
     // find first position of Padding
     std::size_t found = input_str_.find(std::string("="));
     if (found == std::string::npos) {
-        return (input_str_.length() * 5)/8;
+        return (int)(input_str_.length() * 5)/8;
     }
-    return (found) * 5 / 8;
+    return (int)(found) * 5 / 8;
 }
 
 void Base32Decoder::decode(uint8_t *data, size_t keylen){
@@ -47,7 +47,7 @@ void Base32Decoder::decode(uint8_t *data, size_t keylen){
 
     std::vector<uint64_t> fortyBitValueVector;
     bool bExistPadding = base32digitVector.size() % 8 == 0;
-    int fortyBitValueVector_length = bExistPadding ? (base32digitVector.size()/8) : (base32digitVector.size()/8) +1;
+    int fortyBitValueVector_length = bExistPadding ? (int)(base32digitVector.size()/8) : (int)(base32digitVector.size()/8) +1;
     for (int i = 0; i < fortyBitValueVector_length; i++) {
         uint64_t bin = 0;
         if (i != bExistPadding ? fortyBitValueVector_length : fortyBitValueVector_length-1) {

@@ -28,11 +28,10 @@ public:
     virtual ~TOTPTokenGenerator(){
         delete[] key_;
     }
-    bool init();
     uint32_t getToken();
 private:
     uint8_t *key_;
-    int keylen_ = 0;
+    size_t keylen_ = 0;
     const uint64_t   STEP_IN_SECONDS = 30L; // step in seconds
 };
 
