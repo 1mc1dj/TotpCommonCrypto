@@ -3,7 +3,7 @@ Project: TotpCommonCrypto
 File: src/Base32Decoder.cpp
 
 This implementation is one of base32 decoding for RFC4648.
-https://tools.ietf.org/html/rfc4648 
+https://tools.ietf.org/html/rfc4648
 
 Copyright 2020 Tomoo Mizukami <we_love_blog@yahoo.com>
 Released under the MIT license
@@ -14,10 +14,10 @@ Released under the MIT license
 #include "ByteSwap.h"
 #include <iostream>
 
-int Base32Decoder::length() const{
+int Base32Decoder::length() const {
     // check Range of values
     if (!std::all_of(input_str_.begin(), input_str_.end(), [](char c)->bool {
-        return (((c > 0x31) && (c<0x38)) || ((c>0x40) && (c<0x5b)) || (c==0x3d));
+    return (((c > 0x31) && (c<0x38)) || ((c>0x40) && (c<0x5b)) || (c==0x3d));
     } ) ) {
         return -1;
     }
@@ -35,7 +35,7 @@ int Base32Decoder::length() const{
     return (found * 5 % 8 == 0) ? ret: ret;
 }
 
-void Base32Decoder::decode(uint8_t *data, size_t keylen){
+void Base32Decoder::decode(uint8_t *data, size_t keylen) {
     std::vector<uint8_t> base32digitVector;
     for (char c : input_str_) {
         if ((c > 0x31) && (c<0x38)) {
@@ -49,26 +49,29 @@ void Base32Decoder::decode(uint8_t *data, size_t keylen){
     std::vector<uint64_t> fortyBitValueVector;
     bool bExistPadding = base32digitVector.size() % 8 == 0;
     int fortyBitValueVector_length = bExistPadding ? (int)(base32digitVector.size()/8) : (int)(base32digitVector.size()/8) +1;
+    int bitCopyCount = base32digitVector.size();
+    int counter = 0;
+
     for (int i = 0; i < fortyBitValueVector_length; i++) {
+        // 40 bit copy
         uint64_t bin = 0;
-        if (i != bExistPadding ? fortyBitValueVector_length : fortyBitValueVector_length-1) {
-            for (int j = 0; j < 8; j++) {
-                bin |= ((uint64_t)base32digitVector[i*8+j]) << ((7-j)*5);
+        for (int j = 0; j < 8; j++) {
+            uint64_t valueBits = ((uint64_t)base32digitVector[i*8+j]) << ((7-j)*5);
+            bin |= valueBits;
+            counter += 1;
+            if (bitCopyCount == counter) {
+                break;
             }
-            fortyBitValueVector.push_back(bin);         
-        }  else {
-            for (int j = 0; j < base32digitVector.size()%8; j++) {
-                bin |= ((uint64_t)base32digitVector[i*8+j]) << ((7-j)*5);
-            }
-            fortyBitValueVector.push_back(bin);         
         }
+        fortyBitValueVector.push_back(bin);
     }
 
     int i = 0;
-
     uint8_t *temp_buf = new uint8_t[fortyBitValueVector.size()*5];
-    for (auto it = fortyBitValueVector.begin();it != fortyBitValueVector.end(); it++ ) {
-        uint64_t bs_t_val = bswap_64(*it) >> 24;
+    memset(temp_buf, 0, fortyBitValueVector.size()*5);
+
+    for (auto it = fortyBitValueVector.begin(); it != fortyBitValueVector.end(); it++ ) {
+        uint64_t bs_t_val = bswap_64( *it ) >> 24;
         memcpy( &temp_buf[i*5], &bs_t_val, 5);
         i++;
     }
