@@ -12,26 +12,27 @@ Released under the MIT license
 #include <vector>
 #include "Base32Decoder.h"
 #include "ByteSwap.h"
+#include <iostream>
 
 int Base32Decoder::length() const{
     // check Range of values
-    for (char c : input_str_) {
-        if (((c > 0x31) && (c<0x38)) || ((c>0x40) && (c<0x5b))) {
-            continue;
-        } else {
-            if (0x3d != c) {
-                // base32 validation error
-                return -1;
-            }
-        }
+    if (!std::all_of(input_str_.begin(), input_str_.end(), [](char c)->bool {
+        return (((c > 0x31) && (c<0x38)) || ((c>0x40) && (c<0x5b)) || (c==0x3d));
+    } ) ) {
+        return -1;
     }
 
     // find first position of Padding
     std::size_t found = input_str_.find(std::string("="));
     if (found == std::string::npos) {
-        return (int)(input_str_.length() * 5)/8;
+        if (input_str_.length() * 5 % 8 == 0) {
+            return (int)(input_str_.length() * 5)/8;
+        } else {
+            return ((int)(input_str_.length() * 5)/8) + 1;
+        }
     }
-    return (int)(found) * 5 / 8;
+    int ret = (int)(found) * 5 / 8;
+    return (found * 5 % 8 == 0) ? ret: ret;
 }
 
 void Base32Decoder::decode(uint8_t *data, size_t keylen){
@@ -64,13 +65,13 @@ void Base32Decoder::decode(uint8_t *data, size_t keylen){
     }
 
     int i = 0;
-    for (uint64_t t : fortyBitValueVector) {
-        uint64_t bs_t_val = bswap_64(t) >> 24;
-        if (i != fortyBitValueVector.size()%5 == 0 ? fortyBitValueVector.size() : fortyBitValueVector.size() - 1) {
-            memcpy( &data[i*5], &bs_t_val, 5);        
-        } else {
-            memcpy( &data[i*5], &bs_t_val, keylen % 5);        
-        }
+
+    uint8_t *temp_buf = new uint8_t[fortyBitValueVector.size()*5];
+    for (auto it = fortyBitValueVector.begin();it != fortyBitValueVector.end(); it++ ) {
+        uint64_t bs_t_val = bswap_64(*it) >> 24;
+        memcpy( &temp_buf[i*5], &bs_t_val, 5);
         i++;
     }
+    memcpy(data, temp_buf, keylen);
+    delete[] temp_buf;
 }

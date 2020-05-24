@@ -9,3 +9,6 @@ project(totpCmd)
 add_executable(totpCmd main.cpp)
 target_link_libraries(totpCmd totp "-framework System")
 set_target_properties(totpCmd PROPERTIES LINK_FLAGS "-Wl,-F/Library/Frameworks")
+
+add_subdirectory(test)
+
