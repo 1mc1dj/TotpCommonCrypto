@@ -36,7 +36,13 @@ int Base32Decoder::length() const {
 }
 
 void Base32Decoder::decode(uint8_t *data, size_t keylen) {
+
+    // local variables
     std::vector<uint8_t> base32digitVector;
+    std::vector<uint64_t> fortyBitValueVector;
+    size_t counter = 0;
+
+    // change word to value
     for (char c : input_str_) {
         if ((c > 0x31) && (c<0x38)) {
             base32digitVector.push_back((c - 0x32 + 26));
@@ -46,11 +52,10 @@ void Base32Decoder::decode(uint8_t *data, size_t keylen) {
         }
     }
 
-    std::vector<uint64_t> fortyBitValueVector;
-    bool bExistPadding = base32digitVector.size() % 8 == 0;
+    // prepare data per 40 bits
+    size_t numOfBitCopy = base32digitVector.size();
+    bool bExistPadding = numOfBitCopy % 8 == 0;
     int fortyBitValueVector_length = bExistPadding ? (int)(base32digitVector.size()/8) : (int)(base32digitVector.size()/8) +1;
-    size_t bitCopyCount = base32digitVector.size();
-    size_t counter = 0;
 
     for (int i = 0; i < fortyBitValueVector_length; i++) {
         // 40 bit copy
@@ -59,21 +64,23 @@ void Base32Decoder::decode(uint8_t *data, size_t keylen) {
             uint64_t valueBits = ((uint64_t)base32digitVector[i*8+j]) << ((7-j)*5);
             bin |= valueBits;
             counter += 1;
-            if (bitCopyCount == counter) {
+            if (numOfBitCopy == counter) {
                 break;
             }
         }
         fortyBitValueVector.push_back(bin);
     }
 
-    int i = 0;
+
+    // copy to target per 40 bits with endian swapping
+    counter = 0;
     uint8_t *temp_buf = new uint8_t[fortyBitValueVector.size()*5];
     memset(temp_buf, 0, fortyBitValueVector.size()*5);
 
     for (auto it = fortyBitValueVector.begin(); it != fortyBitValueVector.end(); it++ ) {
         uint64_t bs_t_val = bswap_64( *it ) >> 24;
-        memcpy( &temp_buf[i*5], &bs_t_val, 5);
-        i++;
+        memcpy( &temp_buf[counter*5], &bs_t_val, 5);
+        counter++;
     }
     memcpy(data, temp_buf, keylen);
     delete[] temp_buf;
