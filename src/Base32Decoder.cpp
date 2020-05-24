@@ -49,8 +49,8 @@ void Base32Decoder::decode(uint8_t *data, size_t keylen) {
     std::vector<uint64_t> fortyBitValueVector;
     bool bExistPadding = base32digitVector.size() % 8 == 0;
     int fortyBitValueVector_length = bExistPadding ? (int)(base32digitVector.size()/8) : (int)(base32digitVector.size()/8) +1;
-    int bitCopyCount = base32digitVector.size();
-    int counter = 0;
+    size_t bitCopyCount = base32digitVector.size();
+    size_t counter = 0;
 
     for (int i = 0; i < fortyBitValueVector_length; i++) {
         // 40 bit copy
