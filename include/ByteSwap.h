@@ -7,8 +7,8 @@ bytesswap.h compatible code for ios/macOS for operating endian.
 Copyright 2020 Tomoo Mizukami <we_love_blog@yahoo.com>
 Released under the MIT license
 */
-#ifndef __BYTESWAP_H__
-#define __BYTESWAP_H__
+#ifndef BYTESWAP_H_
+#define BYTESWAP_H_
 
 #if HAVE_BYTESWAP_H
 #include <byteswap.h>
@@ -26,4 +26,4 @@ Released under the MIT license
 (uint64_t)bswap_32((uint32_t)((value) >> 32)))
 #endif
 
-#endif //__BYTESWAP_H__
+#endif  // BYTESWAP_H_

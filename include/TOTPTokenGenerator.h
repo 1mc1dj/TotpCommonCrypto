@@ -12,28 +12,26 @@ This software uses HMAC-SHA1 of CommonCrypto Library
 Copyright 2020 Tomoo Mizukami <we_love_blog@yahoo.com>
 Released under the MIT license
 */
-#ifndef __TOTP_H__
-#define __TOTP_H__
+#ifndef TOTPTOKENGENERATOR_H_
+#define TOTPTOKENGENERATOR_H_
 
+#include <stdint.h>
 #include <string>
-#include <stdio.h>
-#include <string.h>
 
 class TOTPTokenGenerator {
-public:
+ public:
     TOTPTokenGenerator(uint8_t *key, size_t len): keylen_(len) {
         key_ = new uint8_t[len];
         memcpy(key_, key, len);
-    }; 
-    virtual ~TOTPTokenGenerator(){
+    }
+    virtual ~TOTPTokenGenerator() {
         delete[] key_;
     }
     uint32_t getToken();
-private:
+ private:
     uint8_t *key_;
     size_t keylen_ = 0;
-    const uint64_t   STEP_IN_SECONDS = 30L; // step in seconds
+    const uint64_t   STEP_IN_SECONDS = 30L;   // step in seconds
 };
 
-#endif // __TOTP_H__
-
+#endif   // TOTPTOKENGENERATOR_H_
