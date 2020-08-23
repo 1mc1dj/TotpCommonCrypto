@@ -1,6 +1,6 @@
 
 #include "gtest/gtest.h"
-#include "Base32Decoder.h"
+#include "base32_decoder.h"
 #include <stdio.h>
 #include <string.h>
 #include <random>

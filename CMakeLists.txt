@@ -3,7 +3,9 @@ set(CMAKE_CXX_STANDARD 11)
 include_directories(include)
 
 project(totp)
-add_library(totp SHARED src/TOTPTokenGenerator.cpp src/Base32Decoder.cpp)
+add_library(totp SHARED 
+    src/totp_token_generator.cc 
+    src/base32_decoder.cc)
 
 project(totpCmd)
 add_executable(totpCmd main.cpp)

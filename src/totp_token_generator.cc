@@ -17,8 +17,8 @@ Released under the MIT license
 #include <time.h>
 #include <string.h>
 #include <CommonCrypto/CommonHMAC.h>
-#include "TOTPTokenGenerator.h"
-#include "ByteSwap.h"
+#include "totp_token_generator.h"
+#include "byte_swap.h"
 
 uint32_t TOTPTokenGenerator::getToken(){
     uint64_t t = time(NULL)  / STEP_IN_SECONDS; // get time

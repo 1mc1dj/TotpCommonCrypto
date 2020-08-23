@@ -10,8 +10,8 @@ Released under the MIT license
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "Base32Decoder.h"
-#include "TOTPTokenGenerator.h"
+#include "base32_decoder.h"
+#include "totp_token_generator.h"
 
 int main(int ac,char **av) {
     if (ac != 2) {

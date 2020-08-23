@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "Base32Decoder.h"
-#include "TOTPTokenGenerator.h"
+#include "base32_decoder.h"
+#include "totp_token_generator.h"
 
 extern "C" int validate_base32(const char *base32);
 extern "C" uint32_t totp_getToken(const char *base32);

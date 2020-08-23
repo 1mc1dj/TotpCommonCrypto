@@ -10,8 +10,8 @@ Released under the MIT license
 */
 #include <string>
 #include <vector>
-#include "Base32Decoder.h"
-#include "ByteSwap.h"
+#include "base32_decoder.h"
+#include "byte_swap.h"
 #include <iostream>
 
 int Base32Decoder::length() const {
