@@ -1,9 +1,8 @@
 #include <stdio.h>
+#include <string.h>
+#include "c_header.h"
 #include "base32_decoder.h"
 #include "totp_token_generator.h"
-
-extern "C" int validate_base32(const char *base32);
-extern "C" uint32_t totp_getToken(const char *base32);
 
 int validate_base32(const char *base32) {
     Base32Decoder b3d(base32);

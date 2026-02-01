@@ -16,6 +16,7 @@ Released under the MIT license
 #define TOTPTOKENGENERATOR_H_
 
 #include <stdint.h>
+#include <string.h>
 #include <string>
 
 class TOTPTokenGenerator {
@@ -25,7 +26,10 @@ class TOTPTokenGenerator {
         memcpy(key_, key, len);
     }
     virtual ~TOTPTokenGenerator() {
-        delete[] key_;
+        if (key_) {
+            memset(key_, 0, keylen_);
+            delete[] key_;
+        }
     }
     uint32_t getToken();
  private:
