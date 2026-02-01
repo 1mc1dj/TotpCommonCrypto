@@ -26,14 +26,15 @@ add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
 
 # Now simply link against gtest or gtest_main as needed. Eg
 
-include_directories(${CMAKE_CURRENT_DIR}../include/)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../include/)
 
+find_package(Python3 REQUIRED)
 set(MYWD "${CMAKE_CURRENT_BINARY_DIR}")
 message(${MYWD})
 
 if(NOT EXISTS ${MYWD}/Base32randomStr.inc)
   message("Base32randomStr.inc is not found")
-  set(MYPYTHONCMD "/usr/bin/python")
+  set(MYPYTHONCMD ${Python3_EXECUTABLE})
   set(MYPYTHONARG1 "${CMAKE_SOURCE_DIR}/test/CreateRandomDataset.py")
   message(${MYPYTHONCMD})
   execute_process(
@@ -48,7 +49,7 @@ if(NOT EXISTS ${MYWD}/Base32randomStr.inc)
 endif()
 
 include_directories(${MYWD})
-add_executable(test Base32DecoderTest.cpp)
-target_link_libraries(test gtest_main totp)
-add_test(NAME example_test COMMAND test)
+add_executable(totp_test Base32DecoderTest.cpp)
+target_link_libraries(totp_test gtest_main totp)
+add_test(NAME example_test COMMAND totp_test)
 
