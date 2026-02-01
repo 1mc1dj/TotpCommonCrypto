@@ -20,7 +20,7 @@ int main(int ac,char **av) {
     }
 
     // base32 decode
-    Base32Decoder b3d((char *)av[1]);
+    Base32Decoder b3d(av[1]);
     int keylen = b3d.length();
     if (keylen < 0) {
         fprintf(stderr, "Error: Invalid domain secret(%s)\n", av[1]);

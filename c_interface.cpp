@@ -6,7 +6,7 @@ extern "C" int validate_base32(const char *base32);
 extern "C" uint32_t totp_getToken(const char *base32);
 
 int validate_base32(const char *base32) {
-    Base32Decoder b3d((char *)base32);
+    Base32Decoder b3d(base32);
     int keylen = b3d.length();
     if (keylen < 0) {
         fprintf(stderr, "Error: Invalid domain secret(%s)\n", base32);
@@ -16,7 +16,7 @@ int validate_base32(const char *base32) {
 }
 
 uint32_t totp_getToken(const char *base32) {
-    Base32Decoder b3d((char *)base32);
+    Base32Decoder b3d(base32);
     int keylen = b3d.length();
     if (keylen < 0) {
         fprintf(stderr, "Error: Invalid domain secret(%s)\n", base32);

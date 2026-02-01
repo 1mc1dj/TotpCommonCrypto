@@ -15,7 +15,7 @@ Released under the MIT license
 
 class Base32Decoder {
  public:
-    Base32Decoder(char *inputStr):input_str_(inputStr) {}
+    Base32Decoder(const char *inputStr):input_str_(inputStr) {}
     virtual ~Base32Decoder() {}
     int length() const;
     void decode(uint8_t *data, size_t keylen);
